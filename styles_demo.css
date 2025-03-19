@@ -1,0 +1,291 @@
+html {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FAF9F6;
+    overflow: hidden;
+    margin: 0;
+    perspective: 500vh;
+}
+
+#container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hide checkbox */
+.nav-toggle {
+    display: none;
+}
+
+/* Menu Button (☰) */
+/* .menu-btn {
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+    font-size: 2.5vw;
+    cursor: pointer;
+    z-index: 1001;
+    transition: transform 0.3s ease-in-out;
+} */
+
+.menu-btn {
+    position: absolute;
+    color: black;
+    top: 2vh;
+    right: 1vw;
+    font-size: 2.5vw;
+    cursor: pointer;
+    z-index: 1001;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+.content-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Stack elements */
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Navigation Panel */
+.nav-panel {
+    position: fixed;
+    top: 0;
+    right: -250px; /* Initially hidden */
+    width: 250px;
+    height: 100vh;
+    background-color: #080808;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    transition: right 0.4s ease-in-out;
+}
+
+.nav-panel h2 {
+    margin-bottom: 20px;
+}
+
+.nav-panel ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.nav-panel ul li {
+    margin: 15px 0;
+}
+
+.nav-panel ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 100;
+}
+
+/* Open Menu: Move Panel & Shift Content */
+.nav-toggle:checked ~ .content-wrapper {
+    transform: translateX(-120px); /* Shift everything left */
+}
+
+.nav-toggle:checked ~ .nav-panel {
+    right: 0; /* Panel slides in */
+}
+
+.date-time {
+    position: absolute;
+    top: 15%;
+    text-align: center;
+    font-family: "Inter", sans-serif; /* Fix: Correct font family */
+    font-optical-sizing: auto;
+    font-variation-settings: "wght" 300; /* Forces ultra-thin weight */
+}
+
+.date-time h1,
+.date-time h3,
+.date-time h4 {
+    margin: 0; /* Ensures even vertical spacing */
+    line-height: 1.5; /* Controls spacing inside text */
+}
+
+
+.carousel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10vw;  /* Dynamic width */
+    height: 15vh; /* Dynamic height */
+    transform: translate(-50%, -50%) rotateX(5deg);
+    transform-style: preserve-3d;;
+}
+
+.carousel-image {
+    position: absolute;
+    width: 10vw; /* Scale with viewport width */
+    height: auto;
+    object-fit: cover;
+    transform-origin: center; /* Rotate around carousel */
+}
+
+
+.image-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden !important;
+    z-index: 1000;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    padding-top: 7.5vh;
+}
+
+.image-container::-webkit-scrollbar {
+    display: none; /* Hides scrollbar (Chrome/Safari) */
+}
+
+.viewer-image {
+    max-width: 80%;
+    max-height: 80vh;
+    scroll-snap-align: center;
+    margin-bottom: 5vh;
+    transition: transform 0.3s ease-in-out;
+    scrollbar-width: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    z-index: 2000;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 75px;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    user-select: none;
+    font-weight: 100; /* Ultra-thin */
+    z-index: 1001;
+}
+
+.left-arrow {
+    left: 2rem; /* Positioned to the left of the viewer */
+}
+
+.right-arrow {
+    right: 2rem; /* Positioned to the right of the viewer */
+}
+
+/* General Dark Mode Setup */
+.dark-mode-toggle {
+    display: none;
+}
+
+/* Toggle Container */
+.toggle-container {
+    position: absolute;
+    top: 3vh;
+    left: 1vw;
+    z-index: 1001;
+}
+
+/* Toggle switch */
+.toggle-label {
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    display: block;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Toggle knob */
+.toggle-label::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    transition: left 0.3s ease-in-out;
+}
+
+/* General Dark Mode Setup */
+.dark-mode-toggle {
+    display: none;
+}
+
+/* Apply dark mode when the checkbox is checked */
+body:has(.dark-mode-toggle:checked) {
+    background-color: #23403F;
+}
+
+body:has(.dark-mode-toggle:checked) .nav-panel {
+    background-color: #D6D3CE;
+}
+
+body:has(.dark-mode-toggle:checked) .nav-panel ul li a {
+    color: black;
+}
+
+body:has(.dark-mode-toggle:checked) .date-time h1,
+body:has(.dark-mode-toggle:checked) .date-time h3,
+body:has(.dark-mode-toggle:checked) .date-time h4 {
+    color: white;
+}
+
+body:has(.dark-mode-toggle:checked) .close-btn, 
+body:has(.dark-mode-toggle:checked) .nav-arrow{
+    color: #D6D3CE;
+}
+
+

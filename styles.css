@@ -1,0 +1,179 @@
+html, body {
+    background-color: #080808;
+    color: #FAF9F6;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+body::-webkit-scrollbar, .container::-webkit-scrollbar {
+    display: none;
+}
+
+.container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.page {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+}
+
+/* LANDING PAGE */
+
+#landing {
+    background-color: #080808;
+    color: #FAF9F6;
+    flex-direction: column;
+    position: relative;
+}
+
+.welcome-text {
+    position: absolute;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome-text h1 {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 100;
+    font-size: 8vw;
+    margin-bottom: 0;
+}
+
+.welcome-text span {
+    font-weight: 300;
+}
+
+.welcome-text p {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 200;
+    font-size: 2.5vw;
+    margin-top: 2vh;
+}
+
+.view-demo {
+    position: absolute;
+    bottom: 5vh;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 2vw;
+    font-weight: 200;
+    text-align: center;
+    animation: fadeBlink 1.5s infinite;
+}
+
+.arrow {
+    font-size: 3vw;
+    margin-top: 5px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* DEMO PAGE */
+
+#demo {
+    background-color: #FAF9F6;
+    color: #080808;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.demo-options {
+    display: flex;
+    gap: 5vw;
+}
+
+.demo-box {
+    width: 25vw;
+    height: 60vh;
+    background-color: #080808;
+    color: #FAF9F6;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 3vw;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 7.5vh;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.demo-box:hover {
+    transform: scale(1.05);
+    background-color: #333;
+}
+
+.demo-link {
+    text-decoration: none;
+}
+
+.view-about {
+    position: absolute;
+    bottom: 5vh;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 2vw;
+    font-weight: 200;
+    text-align: center;
+    animation: fadeBlink 1.5s infinite;
+}
+
+.view-about p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.view-demo p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* ABOUT PAGE */
+
+#about {
+    background-color: #080808;
+    color: #FAF9F6;
+    flex-direction: column;
+    position: relative;
+}
+
+.about-text {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 2vw;
+    font-weight: 100;
+    position: absolute;
+    width: 50vw;
+}
+
+.about-text h1 {
+    font-weight: 300;
+}
+
+.about-text span {
+    font-family: Garamond, serif;
+    font-style: italic;
+    font-weight: 300;
+    color: skyblue;
+}

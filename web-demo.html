@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOW.</title>
+    <link rel="stylesheet" href="styles_demo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Toggle Checkbox -->
+<input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+<!-- Menu Button (☰) -->
+<!-- <label for="nav-toggle" class="menu-btn">&#9776;</label> -->
+
+<a href="index.html" class="menu-btn">
+    <span class="home-btn">&#8962;</span>
+</a>
+
+
+<div class="toggle-container">
+    <input type="checkbox" id="dark-mode-toggle" class="dark-mode-toggle">
+    <label for="dark-mode-toggle" class="toggle-label"></label>
+</div>
+
+<!-- Navigation Panel (Remains fixed) -->
+<!-- <div class="nav-panel">
+    <ul>
+        <li><a href="#home">Demo.</a></li>
+        <li><a href="#about">About.</a></li>
+        <li><a href="#terms">Terms.</a></li>
+        <li><a href="#privacy">Privacy.</a></li>
+    </ul>
+</div> -->
+
+<div id="container">
+<div id="home">
+<!-- Wrapper to Shift Everything -->
+<div class="content-wrapper">
+
+    <!-- Date & Time (Needs to move with the carousel) -->
+    <div class="date-time">
+        <h1>March 10, 2025</h1>
+        <h3></h3>
+        <h4>Miami, FL</h4>
+    </div>
+
+    <!-- Carousel (Also moves left) -->
+    <div class="carousel"></div>
+</div>
+</div>
+
+
+    <script>
+
+const cursor = document.createElement("div");
+
+        const carousel = document.querySelector(".carousel");
+        document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.querySelector(".carousel");
+    const totalImages = 10;
+    const radius = window.innerWidth * 0.2; // 20% of screen width
+    let angle = 0;
+    let lastViewedSlide = {}; // Store last viewed slide per folder
+
+    for (let i = 1; i <= totalImages; i++) {
+        let img = document.createElement("img");
+        img.src = `images_demo/${i}_demo/1.png`;
+        img.classList.add("carousel-image");
+        img.dataset.folder = `images_demo/${i}_demo`;
+        img.dataset.index = i;
+
+        let theta = (i - 1) * (360 / totalImages);
+        img.style.transform = `rotateY(${theta}deg) translateZ(${radius}px)`;
+        img.dataset.angle = theta;
+
+        img.addEventListener("click", function () {
+            carousel.style.visibility = "hidden";
+            document.querySelector(".date-time").style.visibility = "hidden";
+            openImageViewer(parseInt(img.dataset.index), lastViewedSlide[img.dataset.index] || 1);
+        });
+
+        carousel.appendChild(img);
+    }
+
+    const navToggle = document.getElementById("nav-toggle");
+const darkModeToggle = document.getElementById("dark-mode-toggle");
+const menuBtn = document.querySelector(".menu-btn");
+
+function updateMenuColor() {
+    if (darkModeToggle.checked && navToggle.checked) {
+        menuBtn.style.color = "#000000"; // Dark mode + nav open → Black
+    } else if (darkModeToggle.checked || navToggle.checked) {
+        menuBtn.style.color = "#D6D3CE"; // Either dark mode or nav open → White
+    } else {
+        menuBtn.style.color = "#000000"; // Default (light mode, nav closed) → Black
+    }
+}
+
+// Add event listeners to both toggles
+navToggle.addEventListener("change", updateMenuColor);
+darkModeToggle.addEventListener("change", updateMenuColor);
+
+// Run on page load to set the correct initial color
+updateMenuColor();
+
+
+    function rotateImages() {
+        angle += 0.1;
+        document.querySelectorAll(".carousel-image").forEach(img => {
+            let initialAngle = parseFloat(img.dataset.angle);
+            img.style.transform = `rotateY(${initialAngle + angle}deg) translateZ(${radius}px)`;
+        });
+        requestAnimationFrame(rotateImages);
+    }
+
+    rotateImages();
+
+    // Function to open image viewer with left/right navigation
+    function openImageViewer(folderIndex, startSlide = 1) {
+        const totalFolders = 10;
+        const folderPath = `images_demo/${folderIndex}_demo`;
+
+        // Remove existing viewer if any
+        const existingViewer = document.querySelector(".image-viewer");
+        if (existingViewer) existingViewer.remove();
+
+        const viewer = document.createElement("div");
+        viewer.classList.add("image-viewer");
+
+        const imageContainer = document.createElement("div");
+        imageContainer.classList.add("image-container");
+
+        // document.querySelector(".nav-panel").style.display = "none";
+        document.querySelector(".menu-btn").style.display = "none";
+
+        for (let i = 1; i <= 5; i++) {
+            let img = document.createElement("img");
+            img.src = `${folderPath}/${i}.png`;
+            img.classList.add("viewer-image");
+            img.dataset.slideIndex = i;
+            imageContainer.appendChild(img);
+        }
+
+        // Scroll to last viewed slide
+        setTimeout(() => {
+            const slides = imageContainer.querySelectorAll(".viewer-image");
+            if (slides[startSlide - 1]) {
+                slides[startSlide - 1].scrollIntoView({ behavior: "instant" });
+            }
+        }, 10);
+
+        // Track last viewed slide
+        imageContainer.addEventListener("scroll", function () {
+            let images = Array.from(imageContainer.querySelectorAll(".viewer-image"));
+            let currentSlide = images.findIndex(img => img.getBoundingClientRect().top >= 0);
+            if (currentSlide !== -1) {
+                lastViewedSlide[folderIndex] = currentSlide + 1;
+            }
+        });
+
+        // Left Arrow (Previous Story)
+        let leftArrow = document.createElement("div");
+        leftArrow.classList.add("nav-arrow", "left-arrow");
+        leftArrow.innerHTML = "&#x2329;"; // Left arrow symbol
+        leftArrow.addEventListener("click", function () {
+            if (folderIndex > 1) {
+                openImageViewer(folderIndex - 1, lastViewedSlide[folderIndex - 1] || 1);
+            }
+        });
+
+        // Right Arrow (Next Story)
+        let rightArrow = document.createElement("div");
+        rightArrow.classList.add("nav-arrow", "right-arrow");
+        rightArrow.innerHTML = "&#x232A;"; // Right arrow symbol
+        rightArrow.addEventListener("click", function () {
+            if (folderIndex < totalFolders) {
+                openImageViewer(folderIndex + 1, lastViewedSlide[folderIndex + 1] || 1);
+            }
+        });
+
+        // Close Button
+        let closeBtn = document.createElement("div");
+        closeBtn.classList.add("close-btn");
+        closeBtn.innerHTML = "×";
+        closeBtn.addEventListener("click", function () {
+            document.body.removeChild(viewer);
+            carousel.style.visibility = "visible";
+            document.querySelector(".date-time").style.visibility = "visible";
+            // document.querySelector(".nav-panel").style.display = "block";
+            document.querySelector(".menu-btn").style.display = "block";
+        });
+
+        // Only append arrows if navigation is possible
+        if (folderIndex > 1) viewer.appendChild(leftArrow);
+        viewer.appendChild(imageContainer);
+        if (folderIndex < totalFolders) viewer.appendChild(rightArrow);
+        viewer.appendChild(closeBtn);
+        document.body.appendChild(viewer);
+    }
+});
+
+function updateDateTime() {
+    const now = new Date();
+    
+    // Format date as "Month Day, Year" (e.g., "February 7, 2025")
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+
+    // Get hours, minutes, and seconds in 12-hour format WITHOUT AM/PM
+    let hours = now.getHours() % 12 || 12; // Converts 0 to 12
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    // Determine AM/PM
+    let ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+    
+    // Properly formatted time with AM/PM
+    const formattedTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+    // Update HTML content
+    // document.querySelector(".date-time h1").textContent = formattedDate;
+    document.querySelector(".date-time h3").textContent = formattedTime;
+}
+
+// Update immediately and refresh every second
+updateDateTime();
+setInterval(updateDateTime, 1000);
+
+
+
+    </script>
+</body>
+</html>
